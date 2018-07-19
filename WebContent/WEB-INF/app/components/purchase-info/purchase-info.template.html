@@ -1,0 +1,119 @@
+<ng-form name="purchaseInfoForm" novalidate>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Acquisition Breakdown</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <label class="label">Purchase Price
+            <span class="required">*</span>
+        </label>
+        <div class="content">
+            <input type="text" name="purchasePrice" ng-model="ctrl.property.purchasePrice" ng-blur="ctrl.setPurchasePrice()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;" required>
+            <div ng-messages="purchaseInfoForm.purchasePrice.$error" ng-show="purchaseInfoForm.purchasePrice.$dirty || ctrl.hasErrors">
+                <p class="error" ng-message="required">This field is required.</p>
+            </div>
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">After Repair Value
+            <span class="required">*</span>
+        </label>
+        <div class="content">
+            <input type="text" name="afterRepairValue" ng-model="ctrl.property.afterRepairValue" ng-blur="ctrl.setAfterRepairValue()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:150px!important;" required>
+            <div ng-messages="purchaseInfoForm.afterRepairValue.$error" ng-show="purchaseInfoForm.afterRepairValue.$dirty || ctrl.hasErrors">
+                <p class="error" ng-message="required">This field is required.</p>
+            </div>
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">Appraised MV</label>
+        <div class="content">
+            <input type="text" name="marketValue" ng-model="ctrl.property.marketValue" ng-blur="ctrl.setMarketValue()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">Purchase Closing Cost</label>
+        <div class="content">
+            <input type="text" name="closingCosts" ng-model="ctrl.property.closingCosts" ng-blur="ctrl.setClosingCosts()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">Estimated Repair Value</label>
+        <div class="content">
+            <input type="text" name="estimatedRepairValue" ng-model="ctrl.property.estimatedRepairValue" ng-blur="ctrl.setEstimatedRepairValue()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Loan Details</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <div class="inputLabelItem inline">
+                <input type="checkbox" ng-model="ctrl.property.isCashPurchase" ng-change="ctrl.setIsCashPurchase()" id="abandonCallLimits"
+                    class="k-checkbox">
+                <label style="width:277px;display: inline-block!important;" class="k-checkbox-label" for="abandonCallLimits">Cash Purchase?</label>
+            </div>
+        </div>
+    </div>
+    <div ng-class="{'disabled': ctrl.property.isCashPurchase}">
+        <div class="contentBoxRow">
+            <label class="label">Downpayment Percentage (%)</label>
+            <div class="content">
+                <input type="text" name="downpaymentPercentage" ng-model="ctrl.property.loanInfo.downpaymentPercentage" ng-disabled="ctrl.property.isCashPurchase==true"
+                    ng-blur="ctrl.setDownpaymentPercentage()" class="k-cui-textbox k-input k-textbox normal" style="width:112px!important;">
+            </div>
+        </div>
+        <div class="contentBoxRow">
+            <label class="label">Interest Rate (%)
+                <span class="required">*</span>
+            </label>
+            <div class="content">
+                <input type="text" name="interestRate" ng-model="ctrl.property.loanInfo.interestRate" ng-disabled="ctrl.property.isCashPurchase==true"
+                    ng-blur="ctrl.setInterestRate()" class="k-cui-textbox k-input k-textbox normal" style="width:112px!important;"
+                    ng-required="!ctrl.property.isCashPurchase">
+                <div ng-messages="purchaseInfoForm.interestRate.$error" ng-show="purchaseInfoForm.interestRate.$dirty || ctrl.hasErrors">
+                    <p class="error" ng-message="required">This field is required.</p>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="contentBoxRow">
+        <label class="label">Points Charged by Lender</label>
+        <div class="content">
+            <input type="text" name="pointsCharged" ng-model="ctrl.property.loanInfo.pointsCharged" ng-disabled="ctrl.property.isCashPurchase==true" class="k-cui-textbox k-input k-textbox normal" ng-pattern="/^\d+$/" style="width:112px!important;">
+            <div ng-messages="purchaseInfoForm.pointsCharged.$error" ng-show="purchaseInfoForm.pointsCharged.$dirty">
+                <p class="error" ng-message="pattern">Numeric characters only</p>
+            </div>
+        </div>
+    </div> -->
+        <div class="contentBoxRow">
+            <label class="label">Other Charges by Lender</label>
+            <div class="content">
+                <input type="text" name="otherCharges" ng-model="ctrl.property.loanInfo.otherCharges" ng-disabled="ctrl.property.isCashPurchase==true"
+                    ng-blur="ctrl.setOtherCharges()" class="k-cui-textbox k-input k-textbox normal" style="width:112px!important;">
+            </div>
+        </div>
+        <div class="contentBoxRow">
+            <label class="label">Loan Years
+            	<span class="required">*</span>
+            </label>
+            <div class="content">
+                <input type="text" name="loanYears" ng-model="ctrl.property.loanInfo.loanYears" ng-disabled="ctrl.property.isCashPurchase==true"
+                    ng-blur="ctrl.setLoanYears()" class="k-cui-textbox k-input k-textbox normal" style="width:112px!important;"
+                    ng-required="!ctrl.property.isCashPurchase">
+                 <div ng-messages="purchaseInfoForm.loanYears.$error" ng-show="purchaseInfoForm.loanYears.$dirty || ctrl.hasErrors">
+                    <p class="error" ng-message="required">This field is required.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-form>

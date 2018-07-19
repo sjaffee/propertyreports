@@ -1,0 +1,21 @@
+{
+  "name": "propertyanalytics",
+  "version": "1.0.0",
+  "description": "propertyanalytics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sjaffee",
+  "license": "ISC",
+  "devDependencies": {
+    "angular-mocks": "^1.6.9",
+    "jasmine-core": "^3.1.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-phantomjs-launcher": "^1.0.4"
+  },
+  "dependencies": {
+    "angular": "^1.6.9",
+    "phantomjs-prebuilt": "^2.1.16"
+  }
+}

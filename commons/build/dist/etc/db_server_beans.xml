@@ -1,0 +1,43 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <import resource="dbc_bean.xml" />
+    <import resource="security_beans.xml" />
+
+    <bean name="tableProps" class="java.util.ArrayList">
+        <constructor-arg index="0">
+            <list>
+                <ref bean="ObjectLockProps" />
+                <ref bean="SystemProperty" />
+                <ref bean="UserProps" />
+                <ref bean="RoleProps" />
+                <ref bean="PermissionProps" />
+                <ref bean="TenantProps" />
+                <ref bean="RolePermissionProps" />
+                <ref bean="UserRoleProps" />
+                <ref bean="ResourceRoleProps" />
+                <ref bean="ConfigurationProps" />
+                <ref bean="AuditUsersProps" />
+                <ref bean="AuditUserRolesProps" />
+                <ref bean="AuditSystemProperty" />
+                <ref bean="TrackUserLoginsProps" />
+				<ref bean="NobleLProps" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean name="sqlExec" class="com.ali.commons.sqlmapper.LocalSqlExecutor">
+        <property name="tableProps">
+            <ref bean="tableProps" />
+        </property>
+    </bean>
+
+    <bean name="DbServer" class="com.ali.distributed.server.database.AuthServer">
+        <property name="host" value="localhost" />
+        <property name="path" value="RemoteDatabaseServer" />
+        <property name="rmiPort" value="1100" />
+        <property name="registryPort" value="1199" />
+        <property name="tableProps">
+            <ref bean="tableProps" />
+        </property>
+    </bean>
+</beans>

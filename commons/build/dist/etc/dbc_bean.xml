@@ -1,0 +1,89 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="ObjectLockProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>object_lock_bean</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.db.ObjectLockBean</value>
+        </property>
+        <property name="sequenceTableName">
+            <value></value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byIdAndClass">
+                    <value>id = $int and tenant_id = $int and class_name = $str</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="SystemProperty" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>system_property</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.db.SystemProperty</value>
+        </property>
+        <property name="sequenceTableName">
+            <value></value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byName">
+                    <value>property_name = $str and tenant_id = $int</value>
+                </entry>
+				<entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="ConfigurationProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="identity">
+            <value>idx</value>
+        </property>
+        <property name="tableName">
+            <value>configured_item</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.configuration.ConfiguredItemXmlModel</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>configured_item_sequence</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byIdx">
+                    <value>idx = $int</value>
+                </entry>
+                <entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+                <entry key="byUuid">
+                    <value>uuid_msb = $int and uuid_lsb = $int and tenant_id = $int</value>
+                </entry>
+                <entry key="notUuid">
+                    <value>( uuid_msb != $int or uuid_lsb != $int ) and tenant_id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>item_name = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byType">
+                    <value>type_name = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byTypeNotUuid">
+                    <value>type_name = $str and ( uuid_msb != $int or uuid_lsb != $int ) and tenant_id = $int</value>
+                </entry>
+                <entry key="byUuidAndType">
+                    <value>uuid_msb = $int and uuid_lsb = $int and type_name = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byNameAndType">
+                    <value>item_name = $str and type_name = $str and tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

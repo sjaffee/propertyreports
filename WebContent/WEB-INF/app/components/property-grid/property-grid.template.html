@@ -1,0 +1,37 @@
+
+<div class="rightAlign">
+    <a ng-click='addPropertyAnalysis()' data-role="button" class="k-button bold" role="button" aria-disabled="false" tabindex="0">Add</a>
+</div>
+<div kendo-grid="propertyList" k-rebind="ctrl.propertyGridOptions" k-options="ctrl.propertyGridOptions"></div>
+
+<!-- Property Detail Modal-->
+<div id="analysisDetailModal" class="modal">
+    <div class="modal-content">
+        <analysis-tab-form property="ctrl.property" crud-error="ctrl.crudError"></analysis-tab-form>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div id="errorModal" class="modal">
+    <div class="modal-content">
+        <error-modal crud-error="ctrl.crudError"></error-modal>
+    </div>
+</div>
+<script>
+
+	var modal = document.getElementById('analysisDetailModal');
+    // Get the modal
+    function openDetailForm(val) {
+        modal.style.display = "block";
+        
+        var resultsModal = document.getElementById('resultsModal');
+		resultsModal.style.display = "none";
+    }
+    
+    var errorModal = document.getElementById('errorModal');
+
+    function openErrorModal() {
+        errorModal.style.display = "block";
+    }
+
+</script>

@@ -1,0 +1,93 @@
+<html class="k-webkit k-webkit63">
+
+<head>
+    <title>REI Calculator</title>
+    <link href="app/css/kendo-common.css" rel="stylesheet" />
+    <link href="app/css/kendo-default-min.css" rel="stylesheet" />
+    <link href="app/css/kendo-common-bootstrap.css" rel="stylesheet" />
+    <link href="app/css/kendo-bootstrap.css" rel="stylesheet" />
+    <link href="app/css/newuicommoncss.css" rel="stylesheet" />
+    <link href="app/css/newuicontrolscss.css" rel="stylesheet" />
+    <link href="app/css/harmony.css" rel="stylesheet" />
+    <link href="app/css/general.css" rel="stylesheet" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="app/images/favicon.ico" />
+
+    <!-- NEED TO LOAD SCRIPTS IN FOLLOWING ORDER - 1) JQUERY 2) ANGULARJS 3) KENDO-UI-->
+    <script src="app/js/jquery.min.js"></script>
+    <script src="app/js/angular.min.js"></script>
+    <script src="app/js/angular-resource.js"></script>
+    <script src="app/js/angular-messages.js"></script>
+    <script src="app/js/angular-idle.js"></script>
+    <script src="app/js/Chart.min.js"></script>
+    <script src="app/js/angular-chart.min.js"></script>
+    <script src="app/js/kendo.all.min.js"></script>
+    <script src="app/js/app.js"></script>
+    <script src="app/services/grid.service.js"></script>
+    <script src="app/services/analysis-http.service.js"></script>
+    <script src="app/services/property-helper.service.js"></script>
+    <script src="app/services/common.service.js"></script>
+    <script src="app/services/chart.service.js"></script>
+    <script src="app/services/calculation.service.js"></script>
+    <script src="app/components/error-modal/error-modal.component.js"></script>
+    <script src="app/components/error-modal/error.controller.js"></script>
+    <script src="app/components/property-grid/property-grid.component.js"></script>
+    <script src="app/components/property-grid/property-grid.controller.js"></script>
+    <script src="app/components/analysis-tab-form/analysis-tab-form.controller.js"></script>
+    <script src="app/components/analysis-tab-form/analysis-tab-form.component.js"></script>
+    <script src="app/components/property-info/property-info.controller.js"></script>
+    <script src="app/components/property-info/property-info.component.js"></script>
+    <script src="app/components/purchase-info/purchase-info.controller.js"></script>
+    <script src="app/components/purchase-info/purchase-info.component.js"></script>
+    <script src="app/components/rental-info/rental-info.controller.js"></script>
+    <script src="app/components/rental-info/rental-info.component.js"></script>
+    <script src="app/components/results/results.controller.js"></script>
+    <script src="app/components/results/results.component.js"></script>
+
+</head>
+
+<body ng-app="analysis">
+    <div class="MainContent Outer" style="min-height: 503px;">
+        <div class="MainContent Inner">
+            <!-- TOP BANNER -->
+            <div class="topBanner">
+                <div class="topBannerTitleBar">
+                    <label>Real Estate Investment Calculations</label>
+                </div>
+                <div class="topBannerLogo"></div>
+                <div class="topBannerLoadingIcon Loading Icon" style="display: none;"></div>
+
+
+                <!-- <div id="ctl00_pnlMainMenu" class="topBannerMenuContainer">
+                    <ul id="menuHarmonyNavigation" class="topBannerMenu k-widget k-reset k-header k-menu k-menu-horizontal" style="display: block;"
+                        data-role="menu" tabindex="0" role="menubar">
+                    </ul>
+                </div> -->
+            </div>
+            <div>
+                    <div class="contentBox">
+                        <!-- HEADER -->
+                        <div class="contentBoxHeader">
+                            <label class="title">Property Analysis</label>
+                        </div>
+                        <div id="propertyGrid" class="contentBoxContent zebrastripe">
+
+                            <!-- put content in here -->
+                            <property-grid></property-grid>
+                            
+                        </div>
+                        <div class="contentBoxFooter">
+                            
+                        </div>
+                    </div>
+                    <div class="LoginVersionLabel" style="width: 950px;">
+                    	<span class=" copyright Label ">&copy; 2018 Jaffee Development</span>
+                    	<span class="version Label ">Version 1.0.0 </span>
+                	</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

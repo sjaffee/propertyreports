@@ -1,0 +1,310 @@
+ 
+ /* MODAL SCREEN STYLING*/
+
+ .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+
+.modal-content {
+    margin: 5% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    width: 60%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* GRID FORM*/
+
+.actions {
+    text-align: center;
+}
+
+#propertyGrid .rightAlign{
+    text-align: right;
+}
+
+/* TAB FORM */
+
+.bold {
+    font-weight: bold;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+.error {
+    color: red;
+}
+
+.required {
+    color: red;
+}
+
+.sectionLabel {
+    font-size:20px;
+    font-weight:300;
+    color:#5d6771;
+}
+
+.sectionHeading{
+    padding-left: 5px;
+    content: "";
+    display: block;
+    width: 88px;
+    height: 2px;
+    background-color: #428bca;
+    margin: 4px 0 0;
+}
+
+.spaced {
+    padding-top: 30px;
+}
+
+.rightIndented{
+    padding-left: 170px;
+}
+
+.blockLabel {
+    width:120px;
+    display: block;
+    padding: 10px 0px 10px 0px;
+    color: #737373;
+    font-size: 14px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.infoLabel {
+    padding: 10px;
+    color: #737373;
+    font-size: 14px;
+    font-weight: 200;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#campaignGeneralAdvanceModal .headerNumbers {
+    color: #534848;
+    font-size: 1.25rem;
+    display: block;
+    padding-bottom: 6px;
+    font-weight: 600;
+    margin-bottom: .2rem;
+}
+
+#campaignGeneralAdvanceModal .headerLabel {
+    text-transform: uppercase;
+    color: #999;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    -webkit-font-smoothing: antialiased;
+}
+
+.fiftyPercentRulelabel {
+    color: #534848;
+}
+
+#campaignGeneralAdvanceModal .positive {
+    color: green;
+}
+
+#campaignGeneralAdvanceModal .negative {
+    color: red;
+}
+
+.headerSpace {
+    padding-top: 30px;
+}
+
+.nonHeaderNumbers {
+    font-size: 100%;
+    color: #534848;
+    font-weight: 600;
+    margin-bottom: .2rem;
+    text-align: right;
+    vertical-align: baseline;
+    margin: 0;
+    border: 0;
+}
+
+#tabstrip .tabLabel {
+    font-size: 16px;
+    color: #428bca;
+}
+
+#analysisTabForm .contentBox{
+    width: 750px;
+}
+
+#analysisTabForm .error{
+    color: red;
+    padding: 10px;
+}
+
+#campaignGeneralAdvanceModal .resultLeftPane{
+    float: left;
+    padding: 10px;
+    width: 35%;
+}
+
+#campaignGeneralAdvanceModal .contentBoxRow .label{
+   padding: 0px 10px;
+}
+
+#campaignGeneralAdvanceModal .spaced {
+    padding-top: 30px;
+}
+
+#campaignGeneralAdvanceModal .row {
+    display: table-row;
+}
+
+#campaignGeneralAdvanceModal .inline {
+    display: table-cell;
+    padding: 0px 10px;
+}
+
+#campaignGeneralAdvanceModal .spaceFromTop {
+    padding-top: 10px;
+}
+
+#campaignGeneralAdvanceModal .spaceFromTop5 {
+    padding-top: 5px;
+}
+
+#campaignGeneralAdvanceModal .spaceFromTop20 {
+    padding-top: 20px;
+}
+
+#campaignGeneralAdvanceModal .spaceFromTop40 {
+    padding-top: 40px;
+}
+
+#campaignGeneralAdvanceModal .indentRight50 {
+    padding-left: 50px;
+}
+
+#campaignGeneral .middleSpacing {
+    display: inline-block;
+    width: 185px;
+}
+
+#campaignGeneral .disabled {
+    background-color: rgb(235, 235, 228);
+    color: #a1a1a1;
+}
+
+#campaignGeneralAdvanceModal .contentBox{
+    width: 100%;
+}
+
+#campaignGeneralAdvanceModal .error{
+    color: red;
+    padding-left: 10px;
+}
+
+#campaignPurpose .disabled {
+    color: #a1a1a1;
+}
+
+#campaignPurpose .subSection {
+    padding-top: 5px;
+    padding-left: 75px;
+    padding-bottom: 5px;
+}
+
+#campaignPurpose .thirdSection {
+    padding-top: 5px;
+    padding-left: 110px;
+}
+
+#skillGroup .label {
+    width: 175px;
+}
+
+#skillGroup .subLabel{
+    display: inline-block;
+    width: 130px;
+}
+
+#skillGroup .subSection {
+    padding-top: 5px;
+    padding-left: 35px;
+    padding-bottom: 5px;
+}
+
+#skillGroup .subSection .content{
+    padding-top: 5px;
+    padding-left: 35px;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+#skillGroup .inlineLabel{
+    padding-left: 20px;
+    padding-right: 5px;
+}
+
+#skillGroup .secondSectionLabel{
+    display: inline-block;
+    padding: 10px;
+    width: 265px;
+}
+
+#skillGroup .contentBox{
+    width: 650px;
+}
+
+#logout .lable{
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+#logout .button{
+    padding: 10px;
+}
+
+#errorModal .contentBox{
+    width: 50px;
+    margin-top: 50px;
+}
+
+#timeoutModal .contentBox{
+    width: 350px;
+    margin-top: 50px;
+}
+
+#unauthorizedUserModal .contentBox{
+    width: 450px;
+    margin-top: 50px;
+}

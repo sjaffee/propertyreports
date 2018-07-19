@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<project basedir="." default="build" name="propertyreport">
+	<property name="project" value="propertyreport" />
+	<property file="${user.home}/build.properties" />
+	<property file="${basedir}/build.properties" />
+	<property file="${basedir}/../build/build.properties" />
+	<property file="./build.properties" />
+
+	<property name="src" value="${basedir}/src" />
+	<property name="testsrc" value="${basedir}/test" />
+	<property name="resources" value="${basedir}/resources" />
+	<property name="classes" value="${basedir}/WebContent/WEB-INF/classes" />
+	<property name="distlib" value="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="commons.lib" value="${commons.home}/lib" />
+	<property name="commons.etc" value="${commons.home}/etc" />
+
+	<import file="${build.lib}" />
+
+	<target name="prepare">
+		<mkdir dir="${classes}" />
+		<mkdir dir="${distlib}" />
+
+		<path id="cp">
+			<pathelement path="${classes}" />
+			<pathelement path="${basedir}" />
+			<pathelement path="${resources}" />
+			<fileset dir="${distlib}" includes="**/*.jar" />
+			<fileset dir="${commons.lib}" includes="**/*.jar" />
+		</path>		
+		
+	</target>
+
+	<target name="copy-dist-files">
+		<copy todir="${classes}">
+			<!--<fileset dir="${commons.etc}">
+				<include name="db_server_beans.xml" />
+				<include name="dbc_bean.xml" />
+				<include name="security_beans.xml" />
+				<include name="dbserver.properties" />
+			</fileset>-->
+			<fileset dir="${resources}" />			
+		</copy>
+		
+		<!--<copy todir="${distlib}">
+			<fileset dir="${commons.lib}">
+				<include name="commons.jar" />
+				<include name="xstream*.jar" />
+				<include name="jtds*.jar"/>
+				<include name="ojdbc*.jar" />
+				<include name="postgresql*.jar"/>
+				<include name="commons-dbcp*.jar"/>
+				<include name="commons-pool*.jar"/>
+				<include name="commons-collections*.jar"/>
+				<include name="commons-logging*.jar" />
+				<include name="commons-io*.jar"/>
+				<include name="jackson*.jar" />
+				<include name="junit*.jar"/>
+				<include name="log4j*.jar"/>
+				<include name="spring*.jar"/>
+			</fileset>
+		</copy>-->
+		
+	</target>
+
+	<target name="clean">
+		<delete includeEmptyDirs="true" quiet="true">
+		    <fileset dir="${classes}" />
+				
+			<fileset dir="${distlib}">
+				<include name="propertyreport*" />
+			</fileset>
+		</delete>
+		
+	</target>
+	
+	<target name="build" depends="clean, copy-dist-files, compile-all">
+		<jar destfile="${distlib}/propertyreport.jar">
+			<fileset dir="${classes}" >	
+				<exclude name="*.xml"/>
+				<exclude name="*.properties" />
+			</fileset>
+		</jar>
+		
+		<war destfile="${distlib}/propertyreport.war" compress="true" basedir="WebContent" needxmlfile="false">
+			<exclude name="*.js"/>
+			<exclude name="*.json"/>
+			<exclude name="**/node_modules/**"/>
+			<exclude name="**/lib/propertyreport.jar"/>
+			<exclude name="**/classes/outboundservice.properties" />
+		</war>
+	</target>
+
+
+</project>

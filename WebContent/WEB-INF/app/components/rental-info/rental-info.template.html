@@ -1,0 +1,139 @@
+<ng-form name="rentalInfoForm" novalidate>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Income</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <label class="label">Total Gross Monthly Rent
+            <span class="required">*</span>
+        </label>
+        <div class="content">
+            <input type="text" name="monthlyRent" ng-model="ctrl.property.income.monthlyRent" ng-blur="ctrl.setMonthlyRent()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;" required>
+            <div ng-messages="rentalInfoForm.monthlyRent.$error" ng-show="rentalInfoForm.monthlyRent.$dirty || ctrl.hasErrors">
+                <p class="error" ng-message="required">This field is required.</p>
+            </div>
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">Other Monthly Income</label>
+        <div class="content">
+            <input type="text" name="otherIncome" ng-model="ctrl.property.income.otherIncome" ng-blur="ctrl.setOtherIncome()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Fixed Landlord-Paid Expenses</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <label class="blockLabel">PMI</label>
+            <input type="text" name="pmi" ng-model="ctrl.property.expenses.pmi" ng-blur="ctrl.setPmi()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Property Taxes</label>
+            <input type="text" name="propertyTaxes" ng-model="ctrl.property.expenses.propertyTaxes" ng-blur="ctrl.setPropertyTaxes()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:150px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Monthly Insurance</label>
+            <input type="text" name="monthlyInsurance" ng-model="ctrl.property.expenses.monthlyInsurance" ng-blur="ctrl.setMonthlyInsurance()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <label class="blockLabel">HOAs</label>
+            <input type="text" name="hoaFees" ng-model="ctrl.property.expenses.hoaFees" ng-blur="ctrl.setHoaFees()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Electricity</label>
+            <input type="text" name="electricity" ng-model="ctrl.property.expenses.electricity" ng-blur="ctrl.setElectricity()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Garbage</label>
+            <input type="text" name="garbage" ng-model="ctrl.property.expenses.garbage" ng-blur="ctrl.setGarbage()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <label class="blockLabel">Water & Sewer</label>
+            <input type="text" name="water" ng-model="ctrl.property.expenses.water" ng-blur="ctrl.setWater()" class="k-cui-textbox k-input k-textbox normal"
+                style="width:150px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Other Monthly Expenses</label>
+            <input type="text" name="otherExpenses" ng-model="ctrl.property.expenses.otherExpenses" ng-blur="ctrl.setOtherExpenses()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:150px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Variable Landlord-Paid Expenses</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <label class="blockLabel">Vacancy (%)</label>
+            <input type="text" name="vacancyPercentage" ng-model="ctrl.property.expenses.vacancyPercentage" ng-blur="ctrl.setVacancyPercentage()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+            <label class="infoLabel">({{ctrl.vacancyAmount | currency}})</label>
+        </div>
+        <div class="content">
+            <label class="blockLabel">Repairs (%)</label>
+            <input type="text" name="repairsPercentage" ng-model="ctrl.property.expenses.repairsPercentage" ng-blur="ctrl.setRepairsPercentage()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+            <label class="infoLabel">{{ctrl.repairAmount | currency}})</label>
+        </div>
+        <div class="content">
+            <label class="blockLabel">Cap Ex (%)</label>
+            <input type="text" name="capExPercentage" ng-model="ctrl.property.expenses.capExPercentage" ng-blur="ctrl.setCapExPercentage()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+            <label class="infoLabel">({{ctrl.capExAmount | currency}})</label>
+        </div>
+        <div class="content">
+            <label class="blockLabel">Management Fees (%)</label>
+            <input type="text" name="propertyManagementPercentage" ng-model="ctrl.property.expenses.propertyManagementPercentage" ng-blur="ctrl.setPropertyManagementPercentage()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+            <label class="infoLabel">({{ctrl.managementAmount | currency}})</label>
+        </div>
+    </div>
+    <!-- <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Future Assumptions</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <div class="content">
+            <label class="blockLabel">Annual Income Growth (%)</label>
+            <input type="text" name="annualIncomeGrowth" ng-model="ctrl.property.futureEstimates.annualIncomeGrowth" ng-blur="ctrl.setAnnualIncomeGrowth()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Annual PV Growth (%)</label>
+            <input type="text" name="annualPVGrowth" ng-model="ctrl.property.futureEstimates.annualPVGrowth" ng-blur="ctrl.setAnnualPVGrowth()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Annual Expenses Growth (%)</label>
+            <input type="text" name="annualExpenseGrowth" ng-model="ctrl.property.futureEstimates.annualExpenseGrowth" ng-blur="ctrl.setAnnualExpenseGrowth()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+        </div>
+        <div class="content">
+            <label class="blockLabel">Sales Expenses (%)</label>
+            <input type="text" name="salesExpenses" ng-model="ctrl.property.futureEstimates.salesExpenses" ng-blur="ctrl.setSalesExpenses()"
+                class="k-cui-textbox k-input k-textbox normal" style="width:75px!important;">
+        </div>
+    </div> -->
+</ng-form>

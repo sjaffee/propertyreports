@@ -1,0 +1,53 @@
+.topBannerMenuContainer {
+    position: relative;
+    margin-left: 10px;
+}
+    .topBannerMenuContainer:after { /* Clearfix */
+        content: "";
+        display: table;
+        clear: both;
+    }
+.topBannerMenu /* Disables kendoMenu's default background and border */
+{
+    display: inline-block;
+    background:transparent;
+    border:0;
+}
+.topBannerMenu > .k-item /* Disables kendoMenu's border on the top level item only */
+{
+    border:0 !important
+}
+.topBannerMenu > .k-item > .k-link/* Change top level navigation item font-size and tweak position */
+{
+    font-size:14px;
+    padding:5px 10px 2px;
+}
+.topBannerMenu > .k-item .k-item /* Adds some padding to the drop-down list menu items */
+{
+    margin-top:2px;
+    padding:4px 6px;
+}
+.topBannerMenu .k-state-hover, .topBannerMenu .k-state-hover > a.k-link, .topBannerMenu .k-state-hover .k-link.k-state-active /* Change kendoMenu's default hover color */
+{
+    background-color:#ffe897;
+}
+.topBannerMenu .k-state-border-right {  /* override kendoMenu item with submenu, kendo sets color white on hover */
+    color: inherit;
+}
+.topBannerMenu .SimplePicker.Item:hover /* Get rid of 2nd hover effect */
+{
+    background-color:none;
+}
+.topBannerMenu ul /* Add rounded border to dropdown panel */
+{
+    border-radius:0 0 4px 4px;
+}
+
+#menuHarmonyNavigation {
+
+}
+#menuHarmonyUser
+{
+    float: right;
+    margin-right: 6px;
+}

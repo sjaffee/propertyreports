@@ -1,0 +1,247 @@
+<ng-form name="results" novalidate>
+    <div class="MainContent Outer" style="min-height: 503px;">
+        <div class="MainContent Inner">
+            <div rel="viewControlContainer">
+                <div method="post" action="">
+                    <div id="campaignGeneralAdvanceModal">
+                        <div class="contentBox">
+                            <!-- HEADER -->
+                            <div class="contentBoxHeader">
+                                <label class="title">Analysis Results</label>
+                            </div>
+                            <div class="contentBoxContent zebrastripe">
+                                <div class="k-content k-state-active" style="opacity: 1; display: block;">
+                                    <div class="resultLeftPane">
+                                        <div class="contentBoxRow">
+                                            <label class="headerNumbers label">{{ctrl.property.purchasePrice | currency}}</label>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Purchase Price</label>
+                                        </div>
+                                        <div class="contentBoxRow spaced">
+                                            <label class="label">Purchase Closing Costs</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.closingCosts | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Estimated Repairs</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.estimatedRepairValue | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Total Project Cost</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.results.totalProjectCost | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">After Repair Value</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.afterRepairValue | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow spaced">
+                                            <label class="label">Down Payment</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.results.downPayment | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Loan Amount</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.results.loanAmount | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="contentBoxRow">
+                                            <label class="label">Loan Points</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">TBD</label>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="contentBoxRow">
+                                            <label class="label">Amortized Over</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.loanInfo.loanYears}} Years</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Loan Interest Rate</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.loanInfo.interestRate}}%</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Monthly P&I</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.results.principleAndInterest | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="contentBoxRow">
+                                            <label class="label">Total Cash Needed</label>
+                                            <div class="content">
+                                                <div class="inputLabelItem inline">
+                                                    <label class="nonHeaderNumbers">{{ctrl.property.results.totalCashNeeded | currency}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row Level -->
+                                    <div class="row">
+                                        <!-- Label Container -->
+                                        <div class="inline">
+                                            <div>
+                                                <label class="headerNumbers">{{ctrl.property.results.monthlyIncome | currency}}</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">MONTHLY INCOME</label>
+                                            </div>
+                                        </div>
+                                        <div class="inline">
+                                            <div>
+                                                <label class="headerNumbers">{{ctrl.property.results.monthlyExpense | currency}}</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">MONTHLY EXPENSES</label>
+                                            </div>
+                                        </div>
+                                        <div class="inline">
+                                            <div>
+                                                <label ng-class="{'headerNumbers positive' : ctrl.property.results.discountAmount >= 0, 'headerNumbers negative' : ctrl.property.results.discountAmount < 0}">{{ctrl.property.results.discountAmount}}%</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">DISCOUNT</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="inline spaceFromTop">
+                                            <div>
+                                                <label ng-class="{'headerNumbers positive' : ctrl.property.results.cashflow >= 0, 'headerNumbers negative' : ctrl.property.results.cashflow < 0}">{{ctrl.property.results.cashflow | currency}}</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">MONTHLY CASHFLOW</label>
+                                            </div>
+                                        </div>
+                                        <div class="inline spaceFromTop">
+                                            <div>
+                                                <label ng-class="{'headerNumbers positive' : ctrl.property.results.cashOnCashROI >= 0, 'headerNumbers negative' : ctrl.property.results.cashOnCashROI < 0}">{{ctrl.property.results.cashOnCashROI}}%</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">CASH ON CASH ROI</label>
+                                            </div>
+                                        </div>
+                                        <div class="inline spaceFromTop">
+                                            <div>
+                                                <label ng-class="{'headerNumbers positive' : ctrl.property.results.onePercentRule >= 1, 'headerNumbers negative' : ctrl.property.results.onePercentRule < 1}">{{ctrl.property.results.onePercentRule}}%</label>
+                                            </div>
+                                            <div>
+                                                <label class="headerLabel">1% RULE</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="inline spaceFromTop40">
+                                            <label class="headerLabel">Display Report</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="inline spaceFromTop">
+                                            <select kendo-drop-down-list ng-model="ctrl.property.selectedReportDisplay" index='1' style="width:100%;">
+                                                <option value="expenses" selected>Expenses</option>
+                                                <option value="income">Income</option>
+                                                <option value="rule">50% Rule</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="contentBoxRow">
+                                        <div class="content spaceFromTop20 indentRight50">
+                                            <div ng-show="ctrl.property.selectedReportDisplay == 'expenses'">
+                                                <canvas id="expensePie" class="chart chart-pie" width="330" height="165" chart-data="ctrl.property.expensePieData" chart-labels="ctrl.property.expensePieLabels" chart-options="ctrl.options" chart-colors="ctrl.expensePieColors"></canvas>
+                                            </div>
+                                            <div ng-show="ctrl.property.selectedReportDisplay == 'income'">
+                                                <canvas id="incomePie" class="chart chart-pie" width="330" height="165" chart-data="ctrl.property.incomePieData" chart-labels="ctrl.property.incomePieLabels" chart-options="ctrl.options" chart-colors="ctrl.incomePieColors"></canvas>
+                                            </div>
+                                            <div ng-show="ctrl.property.selectedReportDisplay == 'rule'">
+                                                <div class="row">
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">Total Montly Income</label>
+                                                    </div>
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">{{ctrl.property.results.monthlyIncome | currency}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">x50% for Expenses</label>
+                                                    </div>
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">{{ctrl.property.results.fiftyPercentRule.expenses | currency}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">Monthly Payment/Interest Payment</label>Monthly Payment/Interest
+                                                        Payment
+                                                    </div>
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">{{ctrl.property.results.principleAndInterest | currency}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="inline spaceFromTop20"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="inline">
+                                                        <label class="fiftyPercentRulelabel"><label>Total Montly Cashflow using 50%</label>
+                                                    </div>
+                                                    <div class="inline">
+                                                        <label ng-class="{'fiftyPercentRulelabel positive' : ctrl.property.results.fiftyPercentRule.cashflow >= 0, 'fiftyPercentRulelabel negative' : ctrl.property.results.fiftyPercentRule.cashflow < 0}">{{ctrl.property.results.fiftyPercentRule.cashflow | currency}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="inline spaceFromTop5">
+                                                        <label class="fiftyPercentRulelabel">Rule</label>
+                                                    </div>
+                                                    <div class="inline spaceFromTop5"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contentBoxFooter">
+                                <div class="actions">
+                                	<a ng-click="ctrl.closeResultsModal()" data-role="button" class="k-button" role="button" aria-disabled="false" tabindex="0">Edit Inputs</a>
+                                    <a ng-click="ctrl.closeAllModals()" data-role="button" class="k-button" role="button" aria-disabled="false" tabindex="0">Close</a>
+                                    <!-- <a ng-click="ctrl.submit()" class="k-primary k-button" data-role="button" role="button" aria-disabled="false" tabindex="0">Submit</a>  -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>

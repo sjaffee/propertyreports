@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+	<!-- Standard Console Log -->
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p %c{1} - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- Create an appender named INIT_DB that will log to onq_client.log
+		 This log file will append and roll when it reaches 5MB. A maximum
+		 of 2 backups will be made -->
+	<appender name="INIT_DB" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/onq_commons.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="5MB"/>
+		<param name="MaxBackupIndex" value="2" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p %c{1} - %m%n" />
+		</layout>
+	</appender>
+	
+	<root>
+		<priority value="WARN" />
+		<appender-ref ref="INIT_DB" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>

@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by bluna on March 28, 2003, 9:57 AM -->
+<project default="prepare" name="buildlib">
+    <!-- dirname property="buildlib.basedir" file="${ant.file.imported}"/ -->
+
+    <property name="buildlib.basedir" value="${basedir}" />
+
+    <!-- Set the database properties for your local database in your $HOME/build.properties file -->
+    <property file="${user.home}/build.properties" />
+    <!-- This will contain component specific db settings -->
+    <property file="${basedir}/build.properties" />
+    <!-- Set 'formal' database properties from short form -->
+
+    <property name="build" value="${basedir}/build" />
+    <property name="distdir" value="${build}/dist" />
+    <property name="classes" value="${build}/classes" />
+    <property name="testclasses" value="${build}/test" />
+    <property name="junit.out" value="${build}/junit" />
+    <property name="clover.out" value="${build}/clover" />
+    <property name="checkstyle.out" value="${build}/checkstyle" />
+
+    <property name="distbin" value="${distdir}/bin" />
+    <property name="distlib" value="${distdir}/lib" />
+    <property name="distoptional" value="${distdir}/optional" />
+    <property name="distetc" value="${distdir}/etc" />
+    <property name="distsql" value="${distdir}/sql" />
+    <property name="distcache" value="${distdir}/cache" />
+    <property name="distdata" value="${distdir}/data" />
+    <property name="distarchive" value="${distdir}/archive" />
+    <property name="disttools" value="${distdir}/tools" />
+    <property name="testetc" value="${build}/etc" />
+    <property name="distconnections" value="${distdir}/connections" />
+    <property name="src" value="${basedir}/src" />
+    <property name="testsrc" value="${basedir}/src" />
+    <property name="etc" value="${basedir}/etc" />
+    <property name="doc" value="${build}/javadoc" />
+    <property name="lib" value="${basedir}/lib" />
+    <property name="bin" value="${basedir}/bin" />
+    <property name="sql" value="${basedir}/sql" />
+    <property name="debug" value="true" />
+    <property name="distjar" value="${project}.jar" />
+    <property name="project.sql" value="${com.ali.commons.db.dbtype}.sql" />
+    <property name="excludes.file" value="unit-test.excludes" />
+    <property name="mysqldriver.jar" value="${basedir}/../build/lib/mysql-connector-java-5.0.7-bin.jar" />
+    <property name="junit.jar" value="${basedir}/../build/lib/junit-4.1.jar" />
+    <!-- default test directories -->
+    <property name="testsrc" value="${basedir}/test" />
+    <property name="testetc" value="${basedir}/test/etc" />
+    <property name="testdata" value="${basedir}/test/data" />
+    <!-- JUNIT_RUN_DIR - component build.properties can set to override default value -->
+    <property name="JUNIT_RUN_DIR" value="${distdir}" />
+
+    <basename property="base.dir.name" file="${basedir}" />
+    <basename property="release.dir.name" file="${basedir}/.." />
+
+    <!-- ______________________________________________________________________
+         Values are based on developer environments. For use in AntHill, these
+         properties need to be set as workflow properties since they will vary
+         by release.
+    -->
+    <property name="commons.src" value="../commons/src" />
+    <property name="configurationserver.src" value="../configurationserver/src" />
+    <property name="dialerdrivers.src" value="../dialerdrivers/src" />
+    <property name="distributed.src" value="../distributed/src" />
+    <property name="onqmodels.src" value="../onqmodels/src" />
+    <property name="onq.src" value="../onq/src" />
+    <property name="onqclient.src" value="../onqclient/src" />
+    <property name="statusserver.src" value="../statusserver/src" />
+    <property name="vincio.src" value="../vincio/src" />
+    <property name="vincioapp.src" value="../vincioapp/src" />
+    <property name="auditserver.src" value="../auditserver/src" />
+    <property name="uiframework.src" value="../uiframework/src" />
+    <property name="floweditor.src" value="../floweditor/src" />
+
+    <property name="releaseInfo" value="${basedir}/releaseInfo" />
+
+
+    <property environment="env" />
+
+    <!-- default values for performance testing -->
+    <property name="DEBUG_SUSPEND" value="n" />
+    <property name="com.ali.test.integration.FILE" value="../../data/unison-test_file/hrs.150" />
+    <property name="com.ali.test.integration..TEST_DURATION_MINUTES" value="5" />
+
+    <!-- emma properties -->
+    <!-- directory that contains emma.jar and emma_ant.jar: -->
+    <property name="emma.base" value="${basedir}/../build/emma" />
+
+    <property name="emma.coverage.dir" value="${emma.base}/coverage" />
+    <property name="emma.instr.dir" value="${emma.base}/instr" />
+    <!-- output directory used for EMMA work files and coverage reports: -->
+    <property name="emma.dir" value="${basedir}/../build/lib" />
+    <path id="emma.lib">
+        <pathelement location="${emma.dir}/emma.jar" />
+        <pathelement location="${emma.dir}/emma_ant.jar" />
+    </path>
+    <property name="emma.jar" value="${emma.dir}/emma.jar" />
+
+    <property name="emma.filter" value="com.ali.*" />
+
+    <taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+
+    <!-- emma properties -->
+
+    <!-- Allows specification of a subset of tests. -->
+    <!-- For example: -->
+    <!--
+    ant batch-unit-tests -DtestsToRun=**/csl/*/*Test.java
+    -->
+    <property name="testsToRun" value="**/*Test.java" />
+	<property name="negativeTestsToRun" value="**/*NegativeTest.java"/>
+    <property name="releaseInfo" value="${basedir}/releaseInfo" />
+
+
+    <!-- Allows specification of debug parameters. -->
+    <!-- For example: -->
+    <!--
+    ant -DdebugArg1=-Xdebug -DdebugArg2=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 unit-tests-reporting -DtestsToRun=**/BP*Test.java
+    -->
+    <property name="debugArg1" value="-Dfoo=bar" />
+    <property name="debugArg2" value="-Dfoo=bar" />
+
+    <!-- location where intranet accessible artifacts are published -->
+    <property name="publicHTML" value="${user.home}/public_html/" />
+    <!-- location where test javadocs are published -->
+    <property name="testJavadocPath" value="${publicHTML}/${BRANCH}/test" />
+    <!-- URL used for linking to published artifacts -->
+    <property name="javadocDir" value="${publicHTML}/javadocs/${BRANCH}/${project}" />
+    <!-- URL used for accessing javadocs -->
+    <property name="javadocURL" value="${publicURL}/javadocs/${BRANCH}/${project}" />
+
+    <target name="print-version">
+        <echo message="Major Version: ${MAJOR_VERSION}" level="debug" />
+        <echo message="Minor Version: ${MINOR_VERSION}" level="debug" />
+        <echo message="Update Version: ${UPDATE_VERSION}" level="debug" />
+        <echo message="Patch Version: ${PATCH_VERSION}" level="debug" />
+        <echo message="Build Version: ${BUILD_VERSION}" level="debug" />
+    </target>
+
+    <target name="create-version-file">
+        <tstamp />
+        <property name="version.file" value="${distetc}/.version" />
+        <delete file="${version.file}" />
+
+        <echo message="Creating version file at ${version.file}" level="debug" />
+        <antcall target="print-version" />
+
+        <echo file="${version.file}">major_version=${MAJOR_VERSION}${line.separator}</echo>
+        <echo file="${version.file}" append="true">minor_version=${MINOR_VERSION}${line.separator}</echo>
+        <echo file="${version.file}" append="true">update_version=${UPDATE_VERSION}${line.separator}</echo>
+        <echo file="${version.file}" append="true">patch_version=${PATCH_VERSION}${line.separator}</echo>
+        <echo file="${version.file}" append="true">build_number=${BUILD_VERSION}${line.separator}</echo>
+        <echo file="${version.file}" append="true">timestamp=${DSTAMP}.${TSTAMP}${line.separator}</echo>
+    </target>
+
+    <path id="common-test-cp">
+        <pathelement path="${emma.instr.dir}" />
+        <pathelement path="${testFiles}" />
+        <pathelement path="${distdir}" />
+        <pathelement path="${distetc}" />
+        <pathelement path="${classes}" />
+        <pathelement path="${testetc}" />
+        <pathelement path="${testsrc}" />
+        <pathelement path="${testdata}" />
+        <pathelement path="${basedir}" />
+        <pathelement path="${junit.jar}" />
+        <pathelement path="${clover.home}/clover.jar" />
+        <fileset dir="${basedir}/../build/lib" includes="**/*.jar" />
+    </path>
+
+    <path id="run-cp">
+        <pathelement path="${emma.instr.dir}" />
+        <pathelement path="${distdir}" />
+        <pathelement path="${build}/etc" />
+        <pathelement path="${distdir}/etc" />
+        <fileset dir="${distdir}/lib" includes="**/*" />
+        <pathelement path="${emma.jar}" />
+        <pathelement path="${mysqldriver.jar}" />
+    </path>
+
+    <target name="with.clover">
+        <taskdef resource="com/cenqua/ant/antlib.xml" classpath="${clover.home}/cenquatasks.jar" />
+        <extendclasspath path="${clover.home}/clover.jar" />
+        <taskdef resource="clovertasks" classpath="${clover.home}/clover.jar" />
+        <clover-setup initString="mycoverage.db" source="1.5" />
+    </target>
+
+    <target name="clover.html" depends="with.clover">
+        <clover-report>
+            <current outfile="${build}/clover">
+                <format type="html" />
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="checkstyle.report">
+        <taskdef resource="com/cenqua/ant/antlib.xml" classpath="${clover.home}/cenquatasks.jar" />
+        <extendclasspath path="${checkstyle.home}/checkstyle-all-4.2.jar" />
+
+        <taskdef resource="checkstyletask.properties" classpath="${checkstyle.home}/checkstyle-all-4.2.jar" />
+        <checkstyle config="${checkstyle.home}/alichecks.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+            <fileset dir="${src}" includes="**/*.java" excludes="test/**" />
+            <formatter type="xml" tofile="${checkstyle.out}/checkstyle_report.xml" />
+        </checkstyle>
+
+        <style in="${checkstyle.out}/checkstyle_report.xml" out="${checkstyle.out}/checkstyle_report.html" style="${checkstyle.home}/checkstyle.xsl" />
+    </target>
+
+    <target name="prepare" depends="identifyOS">
+        <mkdir dir="${build}" />
+        <mkdir dir="${build}/etc" />
+        <mkdir dir="${classes}" />
+        <mkdir dir="${distdir}" />
+        <mkdir dir="${distdir}/lib" />
+        <mkdir dir="${distdir}/optional" />
+        <mkdir dir="${distdir}/bin" />
+        <mkdir dir="${distdir}/etc" />
+        <mkdir dir="${testetc}" />
+        <mkdir dir="${doc}" />
+        <mkdir dir="${junit.out}" />
+        <mkdir dir="${clover.out}" />
+        <mkdir dir="${checkstyle.out}" />
+        <chmod perm="555">
+            <fileset dir="${basedir}/../build/third-party">
+                <include name="**/bin/**" />
+            </fileset>
+        </chmod>
+        <mkdir dir="${testFiles}" />
+        <!-- overlay modifications ant / java -->
+        <copy todir="${ant.library.dir}" file="${build.lib}/../third-party/ant/lib/ant-contrib.jar" />
+        <if>
+            <equals arg1="${OS}" arg2="aix" />
+            <then>
+                <echo message="Skipping jre updates on ${OS}"/>
+            </then>
+            <else>
+                <copy todir="${env.JAVA_HOME}/jre/lib/security" file="${build.lib}/../third-party/jce/local_policy.jar" failonerror="no"/>
+                <copy todir="${env.JAVA_HOME}/jre/lib/security" file="${build.lib}/../third-party/jce/US_export_policy.jar" failonerror="no"/>
+                <copy todir="${env.JAVA_HOME}/jre/lib/security" file="${build.lib}/../third-party/certificates/cacerts" failonerror="no"/>
+            </else>
+        </if>
+    </target>
+
+    <target name="identifyOS" description="Identify the current Operating System and save to property OS">
+        <script language="javascript">project.setProperty("OS_RAW", project.getProperty("os.name").toLowerCase());</script>
+        <propertyregex property="TMP_OS" input="${OS_RAW}"
+                                    regexp="(^windows|linux|solaris|sparc|sunos|SunOS|aix)(.*$)"
+                                    casesensitive="false"
+                                    select="\1"
+                                    defaultvalue="${OS_RAW}"
+                                    override="false"/>
+        <!-- Handle possible incorrect solaris naming. -->
+        <if>
+            <equals arg1="${TMP_OS}" arg2="sparc"/>
+            <then>
+                <property name="OS" value="solaris"/>
+            </then>
+            <elseif>
+                <equals arg1="${TMP_OS}" arg2="sunos"/>
+                <then>
+                    <property name="OS" value="solaris"/>
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${TMP_OS}" arg2="SunOS"/>
+                <then>
+                    <property name="OS" value="solaris"/>
+                </then>
+            </elseif>
+            <else>
+                <property name="OS" value="${TMP_OS}"/>
+            </else>
+        </if>
+    </target>
+
+    <target name="compile-all" depends="prepare">
+        <javac classpathref="cp" destdir="${classes}" srcdir="${src}" debug="${debug}" includeantruntime="false">
+            <exclude name="test/**/*.java" />
+        </javac>
+    </target>
+
+    <target name="build-default-jar">
+        <jar basedir="${classes}" jarfile="${distdir}/lib/${distjar}" />
+    </target>
+
+    <target name="build-test-jar" depends="compile-tests">
+        <!-- jar compiled test classes -->
+        <jar basedir="${testFiles}" jarfile="${distdir}/lib/${testjar}" />
+        <!-- add non .java files (such as .xsd files) -->
+        <jar basedir="${testsrc}" jarfile="${distdir}/lib/${testjar}" update="true">
+            <include name="**/*.*" />
+            <exclude name="**/*.java" />
+        </jar>
+    </target>
+
+    <target name="copy-files" depends="prepare">
+        <copy todir="${classes}">
+            <fileset dir="${src}" includes="**/*.properties" />
+            <!-- note that dtd's are copied from ${etc} -->
+            <fileset dir="${etc}" includes="**/*.dtd" />
+            <!-- note that xsd's are copied from ${src} -->
+            <fileset dir="${src}" includes="**/*.xsd" />
+            <fileset dir="${src}" includes="**/*.xml" />
+            <fileset dir="${src}" includes="**/*.csv" />
+            <fileset dir="${src}" includes="**/*.all" />
+            <fileset dir="${src}" includes="**/*.png" />
+            <fileset dir="${src}" includes="**/*.jpg" />
+        </copy>
+    </target>
+
+    <target name="copy-dist-files" depends="prepare">
+        <copy todir="${distlib}">
+            <fileset dir="${lib}" includes="**/*.jar" />
+        </copy>
+    </target>
+
+    <target name="doc" depends="prepare">
+        <javadoc destdir="${doc}/" packagenames="com.ali.*" sourcepath="${src}/" />
+    </target>
+
+    <target name="clean-gensource">
+        <delete dir="${gensource}" quiet="true" />
+    </target>
+
+    <target name="clean">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${build}/">
+                <exclude name="**/connections/**/*" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="compile-tests" depends="prepare,compile-all,copy-files">
+        <javac classpathref="test-cp" destdir="${testFiles}" srcdir="${testsrc}" debug="${debug}" includeantruntime="false">
+            <include name="**/*.java" />
+        </javac>
+    </target>
+
+    <target name="unit-tests" depends="batch-unit-tests">
+        <fail if="junitfail" />
+        <fail if="juniterror" />
+        <fail if="integration_junitfail" />
+        <fail if="integration_juniterror" />
+    </target>
+
+    <target name="unit-tests-reporting" depends="batch-unit-tests">
+        <antcall target="junit-report" />
+        <fail if="junitfail" />
+        <fail if="juniterror" />
+        <fail if="integration_junitfail" />
+        <fail if="integration_juniterror" />
+    </target>
+
+    <target name="junit-report">
+        <junitreport todir="${junit.out}">
+            <fileset dir="${junit.out}" includes="TEST-*.xml" />
+            <report format="frames" todir="${junit.out}" />
+        </junitreport>
+    </target>
+
+    <target name="batch-unit-tests-reporting" depends="batch-unit-tests">
+        <antcall target="junit-report" />
+        <fail if="junitfail" />
+        <fail if="juniterror" />
+        <fail if="integration_junitfail" />
+        <fail if="integration_juniterror" />
+    </target>
+
+    <target name="batch-unit-tests" depends="compile-tests">
+        <junit dir="${JUNIT_RUN_DIR}" fork="yes" errorproperty="juniterror" failureproperty="junitfail" haltonfailure="${haltonfailure}" printsummary="on" showoutput="yes">
+            <classpath refid="test-cp" />
+            <formatter type="xml" />
+            <!-- env key="DISPLAY" value="${env.HOSTNAME}:2.0" / -->
+            <jvmarg value="-Djava.awt.headless=true" />
+            <jvmarg value="-Demma.coverage.out.file=${emma.coverage.dir}/coverage.emma" />
+            <jvmarg value="-Demma.coverage.out.merge=true" />
+            <jvmarg value="${debugArg1}" />
+            <jvmarg value="${debugArg2}" />
+            <batchtest fork="yes" todir="${junit.out}">
+                <fileset dir="${testsrc}" excludesfile="${excludes.file}">
+                    <include name="${testsToRun}" />
+                    <exclude name="**/*BaseTest.java" />
+                	<exclude name="${negativeTestsToRun}" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+	
+	
+    <target name="batch-unit-negative-tests" depends="compile-tests">
+        <junit dir="${JUNIT_RUN_DIR}" fork="yes" errorproperty="juniterror" failureproperty="junitfail" haltonfailure="${haltonfailure}" printsummary="on" showoutput="yes">
+            <classpath refid="test-cp" />
+            <formatter type="xml" />
+            <!-- env key="DISPLAY" value="${env.HOSTNAME}:2.0" / -->
+            <jvmarg value="-Djava.awt.headless=true" />
+            <jvmarg value="-Demma.coverage.out.file=${emma.coverage.dir}/coverage.emma" />
+            <jvmarg value="-Demma.coverage.out.merge=true" />
+            <jvmarg value="${debugArg1}" />
+            <jvmarg value="${debugArg2}" />
+            <batchtest fork="yes" todir="${junit.out}">
+                <fileset dir="${testsrc}" excludesfile="${excludes.file}">
+                    <include name="${negativeTestsToRun}" />
+                    <exclude name="**/*BaseTest.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="run-creator" depends="prepare" description="create and run connection creator">
+        <java classpathref="run-cp" classname="com.ali.uiframework.security.login.ConnectionCreator" fork="yes" dir="${distdir}" />
+    </target>
+
+    <target name="run-connection-creator" depends="prepare" description="create and run connection creator using environment variables">
+        <java classpathref="run-cp" classname="com.ali.uiframework.security.login.ConnectionCreator" fork="yes" dir="${distdir}">
+            <arg value="--connection=${connection}" />
+            <arg value="--driver=${com.ali.commons.db.driver}" />
+            <arg value="--url=${com.ali.commons.db.connection}" />
+            <arg value="--user=${com.ali.commons.db.user}" />
+            <arg value="--password=${com.ali.commons.db.password}" />
+        </java>
+    </target>
+
+    <target name="run-initdb" depends="prepare" description="run initdb ui">
+        <java classpathref="run-cp" classname="com.ali.uiframework.security.login.InitDb" fork="yes" dir="${distdir}" />
+    </target>
+
+    <target name="compile-security">
+        <javac classpathref="cp" destdir="${classes}" srcdir="${gensource}" debug="${debug}" includeantruntime="false" />
+    </target>
+
+    <target name="update-schema" depends="prepare">
+        <java classpathref="test-cp" classname="com.ali.commons.db.DbUtil" fork="yes" dir=".">
+            <arg line="${testetc}/UnitTest.properties ${distetc}/${project.sql}" />
+        </java>
+    </target>
+
+    <target name="install" depends="prepare, exclude-dist-files">
+        <ant antfile="build.xml" target="install" dir="./install" inheritall="false" />
+    </target>
+
+    <target name="init-schema" depends="prepare">
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+        <foreach target="create-tables" param="sqlpath">
+            <path>
+                <fileset dir="${distsql}" includes="**/${com.ali.commons.db.dbtype}.sql" />
+            </path>
+        </foreach>
+        <antcall target="init-schema-triggers" />
+    </target>
+
+    <target name="init-schema-triggers">
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+        <foreach target="create-triggers" param="sqlpath">
+            <path>
+                <fileset dir="${distsql}" includes="**/${com.ali.commons.db.dbtype}_trigger.sql" />
+            </path>
+        </foreach>
+    </target>
+
+    <!-- Any changes here should have a corresponding change to onqtest/build.xml -->
+    <target name="create-tables">
+        <echo message="${sqlpath}" />
+        <sql driver="${com.ali.commons.db.driver}"
+             url="${com.ali.commons.db.connection}"
+             userid="${com.ali.commons.db.user}${TENANT}"
+             password="${com.ali.commons.db.password}${TENANT}"
+             classpathref="cp"
+             onerror="abort"
+             expandproperties="true"
+             src="${sqlpath}" />
+    </target>
+
+    <!-- Any changes here should have a corresponding change to onqtest/build.xml -->
+    <target name="create-triggers">
+        <echo message="${sqlpath}" />
+        <sql delimiter="/"
+             keepformat="true"
+             driver="${com.ali.commons.db.driver}"
+             url="${com.ali.commons.db.connection}"
+             userid="${com.ali.commons.db.user}${TENANT}"
+             password="${com.ali.commons.db.password}${TENANT}"
+             classpathref="cp"
+             onerror="abort"
+             expandproperties="true"
+             src="${sqlpath}" />
+    </target>
+
+    <!-- EMMA -->
+    <target name="emma" description="turns on EMMA instrumentation/reporting">
+        <property name="emma.enabled" value="true" />
+        <!-- EMMA instr class output directory: -->
+        <mkdir dir="${emma.coverage.dir}" />
+        <mkdir dir="${emma.instr.dir}" />
+    </target>
+
+    <target name="emma-instrument" depends="prepare,emma" description="instruments code">
+        <echo message="${classes}" />
+        <emma enabled="${emma.enabled}">
+            <instr instrpathref="cp" destdir="${emma.instr.dir}" metadatafile="${emma.coverage.dir}/metadata.emma" merge="true">
+                <filter value="${emma.filter}" />
+                <filter excludes="*Test*" />
+            </instr>
+        </emma>
+    </target>
+
+    <target name="emma-report" depends="emma">
+        <!-- if enabled, generate coverage report(s): -->
+        <emma enabled="${emma.enabled}">
+            <report sourcepath="${src}" sort="+block,+name,+method,+class" metrics="method:70,block:80,line:80,class:100">
+                <!-- collect all EMMA data dumps (metadata and runtime)
+                     [this can be done via nested <fileset> fileset elements
+                     or <file> elements pointing to a single file]:
+                -->
+                <fileset dir="${emma.coverage.dir}">
+                    <include name="*.emma" />
+                </fileset>
+
+                <!-- for every type of report desired, configure a nested
+                     element; various report parameters
+                     can be inherited from the parent <report>
+                     and individually overridden for each report type:
+                -->
+                <txt outfile="${emma.coverage.dir}/coverage.txt" depth="package" columns="class,method,block,line,name" />
+                <xml outfile="${emma.coverage.dir}/coverage.xml" depth="package" />
+                <html outfile="${emma.coverage.dir}/coverage.html" depth="method" columns="name,class,method,block,line" encoding="UTF-8" />
+            </report>
+        </emma>
+    </target>
+    <!-- End of EMMA -->
+
+    <!-- Replace database tokens in a directory -->
+    <target name="replace_db_tokens">
+        <echo message="Replace DB tokens in: ${dbTokenDir}: filter: ${dbTokenFilter}" />
+        <replace dir="${dbTokenDir}">
+            <include name="${dbTokenFilter}" />
+            <replacefilter token="@DB_URL@" value="${DB_URL}" />
+            <replacefilter token="@DB_CATALOG@" value="${DB_CATALOG}" />
+            <replacefilter token="@DB_TYPE@" value="${DB_TYPE}" />
+            <replacefilter token="@DB_DRIVER@" value="${DB_DRIVER}" />
+            <replacefilter token="@DB_USER@" value="${DB_USER}" />
+            <replacefilter token="@DB_PASSWORD@" value="${DB_PASSWORD}" />
+            <replacefilter token="@DB_DIALECT@" value="${DB_DIALECT}" />
+        </replace>
+    </target>
+
+    <target name="show_db_values">
+        <echo message="com.ali.commons.db.user: ${com.ali.commons.db.user}${TENANT}" />
+        <echo message="com.ali.commons.db.password:  ${com.ali.commons.db.password}${TENANT}" />
+        <echo message="com.ali.commons.db.dbtype:  ${com.ali.commons.db.dbtype}" />
+        <echo message="com.ali.commons.db.connection:  ${com.ali.commons.db.connection}${TENANT}" />
+        <echo message="com.ali.commons.db.driver:  ${com.ali.commons.db.driver}" />
+        <echo message="com.ali.commons.db.superuser: ${com.ali.commons.db.superuser}" />
+        <echo message="com.ali.commons.db.superpass: ${com.ali.commons.db.superpass}" />
+    </target>
+
+    <target name="exclude-dist-files" description="Move jars used only for testing to ${testFiles}. Deletes other files not used for distribution.">
+        <foreach target="moveFilesToTestDirectory" param="testFile" inheritall="yes">
+            <fileset dir="${distlib}">
+                <include name="**/easymock.jar" />
+                <include name="**/jmock*" />
+                <include name="**/junit*" />
+                <include name="**/hamcrest*" />
+                <include name="**/distributed-commons-tools.jar" />
+                <include name="**/mysql-connector-java*.jar" />
+                <include name="**/jconn*.jar" />
+                <include name="**/antlr*.jar" />
+                <include name="**/asm-*.jar" />
+                <include name="**/groovy-*.jar" />
+                <include name="**/vtd-xml.jar" />
+                <include name="**/*-test.jar" />
+            </fileset>
+        </foreach>
+        <delete>
+            <fileset dir="${distetc}">
+                <include name="**/z5plus_2008_01.all" />
+                <include name="**/UnitTest.*" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="incrementIteration" description="increments iteration number stored on rogue">
+        <exec executable="${HOME_DIR}/incrementOnQ32IterationNumber.sh" />
+    </target>
+
+    <target name="set2Unix" description="Convert .sh files to UNIX requirements">
+        <fixcrlf srcdir="${TARGET_DIR}" includes="**/*.sh" eol="unix" />
+        <chmod perm="755" dir="${TARGET_DIR}" includes="**/*.sh" />
+    </target>
+
+    <target name="set2Windows" description="Convert .bat files to Windows requirements">
+        <fixcrlf srcdir="${TARGET_DIR}" includes="**/*.bat" eol="dos" />
+        <chmod perm="755" dir="${TARGET_DIR}" includes="**/*.bat" />
+    </target>
+
+    <target name="generateDefectReportAll">
+        <antcall target="generateJiraReport">
+            <param name="REPORT_ID" value="${JIRA_DEFECTS_ALL_ID}" />
+            <param name="JIRA_OUTPUT" value="all_defects.xml" />
+        </antcall>
+    </target>
+
+    <target name="generateDefectReportOpen">
+        <antcall target="generateJiraReport">
+            <param name="REPORT_ID" value="${JIRA_DEFECTS_OPEN_ID}" />
+            <param name="JIRA_OUTPUT" value="open_defects.xml" />
+        </antcall>
+    </target>
+
+    <target name="generateFeatureReportAll">
+        <antcall target="generateJiraReport">
+            <param name="REPORT_ID" value="${JIRA_FEATURES_ALL_ID}" />
+            <param name="JIRA_OUTPUT" value="all_features.xml" />
+        </antcall>
+    </target>
+
+    <target name="generateFeatureReportOpen">
+        <antcall target="generateJiraReport">
+            <param name="REPORT_ID" value="${JIRA_FEATURES_OPEN_ID}" />
+            <param name="JIRA_OUTPUT" value="open_features.xml" />
+        </antcall>
+    </target>
+
+    <target name="generateJiraReport" description="Generate an XML report from JIRA. The significant parameters are REPORT_PID and REPORT_FIXFOR. Specifying a report output in permalink format uses these parameters.">
+        <delete file="items.xml" />
+        <mkdir dir="${releaseInfo}" />
+        <property name="JIRA_USERNAME" value="anthill" />
+        <property name="JIRA_PASSWORD" value="anthill" />
+        <property name="LINK" value="https://ausljira1.noblesys.com:8443/sr/jira.issueviews:searchrequest-xml/${REPORT_ID}/SearchRequest-${REPORT_ID}.xml?tempMax=1000" />
+        <property name="URL" value="${LINK}&amp;os_username=${JIRA_USERNAME}&amp;os_password=${JIRA_PASSWORD}" />
+        <get src="${URL}" dest="${releaseInfo}/${JIRA_OUTPUT}" />
+    </target>
+
+    <target name="generateTestMappingFeatureReportAll" depends="generateFeatureReportAll">
+        <antcall target="generateTestMappingReport">
+            <param name="TYPE" value="all_features" />
+        </antcall>
+    </target>
+
+    <target name="generateTestMappingFeatureReportOpen" depends="generateFeatureReportOpen">
+        <antcall target="generateTestMappingReport">
+            <param name="TYPE" value="open_features" />
+        </antcall>
+    </target>
+
+    <target name="generateTestMappingDefectReportAll" depends="generateDefectReportAll">
+        <antcall target="generateTestMappingReport">
+            <param name="TYPE" value="all_defects" />
+        </antcall>
+    </target>
+
+    <target name="generateTestMappingDefectReportOpen" depends="generateDefectReportOpen">
+        <antcall target="generateTestMappingReport">
+            <param name="TYPE" value="open_defects" />
+        </antcall>
+    </target>
+
+    <target name="moveFilesToTestDirectory" description="Move file that is not to be distributed but needed to test to ${testFiles}">
+        <move file="${testFile}" todir="${testFiles}" />
+    </target>
+
+    <!-- convert property to uppercase -->
+    <scriptdef name="upperCase" language="javascript">
+        <attribute name="property" />
+        <attribute name="value" />
+        project.setNewProperty(attributes.get("property"), attributes.get("value").toUpperCase());
+     </scriptdef>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${ANT_HOME}/lib/ant-contrib.jar" />
+        </classpath>
+    </taskdef>
+
+    <target name="copyDocumentationFiles" description="copy documentation directory to ${documentation.source.dir}">
+        <copy todir="${distdir}/webhelp">
+            <fileset dir="${documentation.source.dir}" />
+        </copy>
+
+    </target>
+
+    <!-- This target sets the property "app.version" with the application version.  It is
+         assumed that the required version numbers have been defined by the time this target is called -->
+    <target name="get-product-version">
+        <if>
+            <equals arg1="${UPDATE_VERSION}" arg2="" />
+            <then>
+                <property name="app.version" value="${MAJOR_VERSION}.${MINOR_VERSION}" />
+            </then>
+            <elseif>
+                <equals arg1="${PATCH_VERSION}" arg2="" />
+                <then>
+                    <property name="app.version" value="${MAJOR_VERSION}.${MINOR_VERSION}.${UPDATE_VERSION}" />
+                </then>
+            </elseif>
+            <else>
+                <property name="app.version" value="${MAJOR_VERSION}.${MINOR_VERSION}.${UPDATE_VERSION}.${PATCH_VERSION}" />
+            </else>
+        </if>
+        <echo message="Product version is ${app.version}" />
+    </target>
+
+    <!-- This target finds all *.sql files in distetc and replaces the version tokens with the version number -->
+    <target name="replace-version-tokens" description="Replaces version tokens with version numbers inside *.sql files in distetc">
+        <replace dir="${distsql}" includes="*.sql" token="@MAJOR_VERSION@" value="${MAJOR_VERSION}" />
+        <replace dir="${distsql}" includes="*.sql" token="@MINOR_VERSION@" value="${MINOR_VERSION}" />
+        <if>
+            <equals arg1="${UPDATE_VERSION}" arg2="" />
+            <then>
+                <property name="update_number" value="0" />
+            </then>
+            <else>
+                <property name="update_number" value="${UPDATE_VERSION}" />
+            </else>
+        </if>
+        <replace dir="${distsql}" includes="*.sql" token="@UPDATE_VERSION@" value="${update_number}" />
+		<if>
+            <equals arg1="${PATCH_VERSION}" arg2="" />
+            <then>
+                <property name="patch_number" value="0" />
+            </then>
+            <else>
+                <property name="patch_number" value="${PATCH_VERSION}" />
+            </else>
+        </if>
+        <replace dir="${distsql}" includes="*.sql" token="@PATCH_VERSION@" value="${patch_number}" />
+        <if>
+            <equals arg1="${BUILD_VERSION}" arg2="" />
+            <then>
+                <property name="build_number" value="0" />
+            </then>
+            <else>
+                <property name="build_number" value="${BUILD_VERSION}" />
+            </else>
+        </if>
+        <replace dir="${distsql}" includes="*.sql" token="@BUILD_VERSION@" value="${build_number}" />
+    </target>
+
+    <!-- target create-db-schema:
+         In order for this target to create a new user and database
+         or schema on the db server, the following properties *must*
+         be defined when running the target:
+             com.ali.commons.db.user: name of user to create
+             com.ali.commons.db.password: password of user being created
+             com.ali.commons.db.dbtype: type of database (either 'mssql' or 'oracle')
+             com.ali.commons.db.driver: driver appropriate with jars (*must* be either
+                         oracle.jdbc.OracleDriver or
+                         net.sourceforge.jtds.jdbc.Driver)
+             com.ali.commons.db.connection: url of the database (e.g.
+                         jdbc:jtds:sqlserver://fosters:1433 or
+                         jdbc:oracle:thin:@squid:1521:devel
+             com.ali.commons.db.superuser: super user of db able to create new users/schemas/dbs, etc.
+             com.ali.commons.db.superpass: password of super user
+    -->
+    <path id="sql-cp">
+        <fileset dir="${basedir}/../build/lib/" includes="**/*.jar" />
+    </path>
+
+    <target name="create-tenant-schema" description="Create schema for Tenant identified by TENANT property">
+        <property name="UNDERSCORE_TENANT" value="_${TENANT}" />
+        <antcall target="create-db-schema" />
+    </target>
+
+    <target name="create-db-schema">
+
+    	<antcall target="show_db_values" />
+		
+		<!-- kill inactive sessions (currently only used for Oracle) -->
+    	<property name="kill_sessions_sqlfile" value="${basedir}/../build/sql/kill_inactive_sessions_${com.ali.commons.db.dbtype}.sql" />
+		<if>
+			<available file="${kill_sessions_sqlfile}" />
+		    <then>
+		        <sql driver="${com.ali.commons.db.driver}"
+		             url="${com.ali.commons.db.connection}"
+		             userid="${com.ali.commons.db.superuser}"
+		             password="${com.ali.commons.db.superpass}"
+		             classpathref="sql-cp"
+		             onerror="continue"
+                     expandproperties="true"
+                     delimiter="/"
+		             src="${kill_sessions_sqlfile}">
+				    <connectionProperty name="internal_logon" value="sysdba" />	 
+                </sql>
+            </then>
+		</if>
+    	
+        <!-- drop user first. if there is a problem dropping user, ignore failure. probably because user doesn't exist yet. -->
+        <path id="dropfiles">
+            <fileset dir="${basedir}/../build/sql/"
+                includes="drop_*_${com.ali.commons.db.dbtype}.sql" />
+        </path>
+        <property name="sqlfile1" refid="dropfiles"/>
+        <condition property="fileExists">
+            <and>
+                <not>
+                    <!-- Even if the path dropfiles was empty, sqlfile1 was coming back as available. -->
+                    <equals arg1="" arg2="${sqlfile1}"/>
+                </not>
+                <available file="${sqlfile1}" type="file"/>
+            </and>
+        </condition>
+        <antcall target="run-sql">
+            <param name="file" value="${sqlfile1}" />
+            <param name="RUN-SQL-ONERROR" value="abort" />
+        </antcall>
+
+        <!-- If not unset, this property will remain set, even if sqlfile2 is not available. -->
+        <var name="fileExists" unset="true"/>
+
+        <!-- now create user.  if there is a problem creating user, then this target should fail. -->
+        <property name="sqlfile2" value="${basedir}/../build/sql/create_schema_${com.ali.commons.db.dbtype}.sql" />
+        <available file="${sqlfile2}" property="fileExists" />
+        <antcall target="run-sql">
+            <param name="file" value="${sqlfile2}" />
+            <param name="RUN-SQL-ONERROR" value="abort" />
+        </antcall>
+    </target>
+
+    <target name="run-sql" if="fileExists">
+        <echo message="executing: ${file}" />
+        <if>
+            <equals arg1="${com.ali.commons.db.dbtype}" arg2="mssql" />
+            <then>
+                <propertyregex property="mssqlUrl"
+                    input="${com.ali.commons.db.connection}"
+                    regexp="(^jdbc:jtds:sqlserver://[\S]+)(;databaseName=.*$)"
+                    select="\1"
+                    casesensitive="false"
+                    override="true"/>
+                <!--We must connect to the default(master) db if mssql-->
+                <sql driver="${com.ali.commons.db.driver}"
+                    url="${mssqlUrl}"
+                    userid="${com.ali.commons.db.superuser}"
+                    password="${com.ali.commons.db.superpass}"
+                    classpathref="sql-cp"
+                    onerror="${RUN-SQL-ONERROR}"
+                    expandproperties="true"
+                    src="${file}" />
+            </then>
+            <else>
+            	<if>
+            		<equals arg1="${com.ali.commons.db.dbtype}" arg2="postgres" />
+            		<then>
+            			<echo message="Removing database from postgres connection url:" />
+            			<propertyregex property="postgresUrl"
+            				input="${com.ali.commons.db.connection}"
+                    		regexp="(^jdbc:postgresql://[\S]+)(/.*$)"
+                    		select="\1"
+                    		casesensitive="false"
+                    		override="true"/>
+            			<echo message="${postgresUrl}" />
+            		    <sql driver="${com.ali.commons.db.driver}"
+		                     url="${postgresUrl}"
+		                     userid="${com.ali.commons.db.superuser}"
+		                     password="${com.ali.commons.db.superpass}"
+		                     classpathref="sql-cp"
+		                     onerror="${RUN-SQL-ONERROR}"
+		                     expandproperties="true"
+		                     autocommit="true"
+		                     src="${file}" />
+            		</then>
+            		<else>
+		            	<sql driver="${com.ali.commons.db.driver}"
+		                     url="${com.ali.commons.db.connection}"
+		                     userid="${com.ali.commons.db.superuser}"
+		                     password="${com.ali.commons.db.superpass}"
+		                     classpathref="sql-cp"
+		                     onerror="${RUN-SQL-ONERROR}"
+		                     expandproperties="true"
+		                     src="${file}" />
+                     </else>
+            	</if>
+            </else>
+        </if>
+    </target>
+
+    <target name="create-sql">
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+        <foreach target="concat-sql" param="sqlpath">
+            <path>
+                <fileset dir="${sql}" includes="*.sql" />
+            </path>
+        </foreach>
+    </target>
+
+    <target name="javadoc" description="Generate javadocs. The path reference sourcePathReference should be set to include set of source directories.">
+        <delete dir="${javadocDir}" failonerror="false" />
+        <javadoc sourcepathref="sourcePathReference"
+                 classpathref="javadocClasspathReference"
+                 defaultexcludes="yes"
+                 destdir="${javadocDir}"
+                 author="true"
+                 version="true"
+                 use="true"
+                 windowtitle="${javadocTitle}">
+            <link href="http://download.oracle.com/javase/6/docs/api/index.html" />
+            <doctitle><![CDATA[<h1>OnQ API</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2012 Noble Systems Corporation. All Rights Reserved.</i>]]></bottom>
+</javadoc>
+</target>
+</project>

@@ -1,0 +1,30 @@
+<ng-form name="tm" novalidate>
+    <div class="MainContent Outer" style="min-height: 503px;">
+        <div class="MainContent Inner">
+            <div rel="viewControlContainer">
+                <div method="post" action="">
+                    <div id="errorModal">
+                        <div class="contentBox">
+                            <!-- HEADER -->
+                            <div class="contentBoxHeader">
+                                <label class="title">Error</label>
+                            </div>
+                            <div class="contentBoxContent zebrastripe">
+                                <div class="k-content k-state-active" style="opacity: 1; display: block;">
+                                    <div class="contentBoxRow">
+                                        <label>Error occurred while performing CRUD operation</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contentBoxFooter">
+                                <div class="actions"> 
+                                    <a ng-click="ctrl.close()" class="k-button bold">Close</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,65 @@
+<ng-form name="propertyInfoForm" novalidate>
+    <div class="contentBoxRow">
+        <label class="label">Report Title
+            <span class="required">*</span>
+        </label>
+        <div class="content">
+            <input type="text" name="reportTitle" ng-model="ctrl.property.reportTitle" class="k-cui-textbox k-input k-textbox normal" style="width:300px!important;" required>
+            <div ng-messages="propertyInfoForm.reportTitle.$error" ng-show="propertyInfoForm.reportTitle.$dirty || ctrl.hasErrors">
+                <p class="error" ng-message="required">This field is required.</p>
+            </div>
+        </div>
+    </div>
+    <div class="contentBoxRow spaced">
+        <div class="inputLabelItem inline">
+            <label class="sectionLabel">Property Information</label>
+        </div>
+    </div>
+    <div class="sectionHeading"></div>
+    <div class="contentBoxRow">
+        <label class="label">Address</label>
+        <div class="content">
+            <div class="content">
+                <label class="blockLabel">Street</label>
+                <input type="text" ng-model="ctrl.property.propertyAddress.street" class="k-cui-textbox k-input k-textbox normal" style="width:350px!important;">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="contentBoxRow">
+        <div class="rightIndented">
+            <div class="content">
+                <label class="blockLabel">City</label>
+                <input type="text" ng-model="ctrl.property.propertyAddress.city" name="" class="k-cui-textbox k-input k-textbox normal" style="width:173px!important;">
+            </div>
+            <div class="content">
+                <label class="blockLabel">State</label>
+                <input type="text" ng-model="ctrl.property.propertyAddress.state" name="" class="k-cui-textbox k-input k-textbox normal"
+                    style="width:172px!important;">
+            </div>
+        </div>
+    </div>
+
+    <div class="contentBoxRow">
+        <div class="rightIndented">
+            <div class="content">
+                <label class="blockLabel">Zip</label>
+                <input type="text" ng-model="ctrl.property.propertyAddress.zip" name="" class="k-cui-textbox k-input k-textbox normal" style="width:173px!important;">
+            </div>
+        </div>
+    </div>
+
+    <div class="contentBoxRow">
+        <label class="label">Annual Property Taxes</label>
+        <div class="content">
+            <input type="text" name="annualPropertyTaxes" ng-model="ctrl.property.annualPropertyTaxes" ng-blur="ctrl.setTaxes()" class="k-cui-textbox k-input k-textbox normal" style="width:175px!important;">
+        </div>
+    </div>
+    <div class="contentBoxRow">
+        <label class="label">MLS Number</label>
+        <div class="content">
+            <input type="text" ng-model="ctrl.property.mlsNumber" class="k-cui-textbox k-input k-textbox normal" style="width:175px!important;">
+        </div>
+    </div>
+</ng-form>

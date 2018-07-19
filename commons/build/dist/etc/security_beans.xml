@@ -1,0 +1,326 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="UserProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="identity">
+            <value>id</value>
+        </property>
+        <property name="tableName">
+            <value>user_db_bean</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.UserDbBean</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>user_bean_sequence</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>user_name = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+	<bean id="RoleProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="identity">
+            <value>id</value>
+        </property>
+        <property name="tableName">
+            <value>role_db_bean</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.RoleDbBean</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>role_bean_sequence</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>role_name = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="PermissionProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="identity">
+            <value>id</value>
+        </property>
+        <property name="tableName">
+            <value>permission_db_bean</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.PermissionGrantBean</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>permission_bean_sequence</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>name = $str</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="TenantProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="identity">
+            <value>id</value>
+        </property>
+        <property name="tableName">
+            <value>tenant</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.TenantBean</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>tenant_sequence</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>name = $str</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="RolePermissionProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>role_permission_map</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.RolePermissionBean</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="permissionsByRoleId">
+                    <value>a.role_id = $int and a.permission_id = b.id</value>
+                </entry>
+                <entry key="byRoleId">
+                    <value>role_id = $int</value>
+                </entry>
+            </map>
+        </property>
+        <property name="joins">
+            <map>
+                <entry key="permissionsByRoleId">
+                    <ref local="RolePermissionJoin" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="UserRoleProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>user_role_map</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.UserRoleBean</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="rolesByUserId">
+                    <value>a.user_id = $int and a.role_id = b.id</value>
+                </entry>
+                <entry key="byUserId">
+                    <value>user_id = $int</value>
+                </entry>
+            </map>
+        </property>
+        <property name="joins">
+            <map>
+                <entry key="rolesByUserId">
+                    <ref local="UserRoleJoin" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="ResourceRoleProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>resource_role_map</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.ResourceRoleDbBean</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byRoleKey">
+                    <value>resource_key = $str and tenant_id = $int</value>
+                </entry>
+                <entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="UserRoleJoin" class="com.ali.commons.sqlmapper.JoinProperties">
+        <property name="returnClass">
+            <value>com.ali.commons.security.UserRoleResult</value>
+        </property>
+        <property name="selectClause">
+            <value>a.user_id, a.role_id, b.role_name as role_name</value>
+        </property>
+        <property name="fromClause">
+            <value>user_role_map a, role_db_bean b</value>
+        </property>
+    </bean>
+
+    <bean id="RolePermissionJoin" class="com.ali.commons.sqlmapper.JoinProperties">
+        <property name="returnClass">
+            <value>com.ali.commons.security.PermissionGrantBean</value>
+        </property>
+        <property name="selectClause">
+            <value>b.*</value>
+        </property>
+        <property name="fromClause">
+            <value>role_permission_map a, permission_db_bean b</value>
+        </property>
+    </bean>
+    
+    <bean id="AuditUsersProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="beanClassName">
+            <value>com.ali.commons.security.AuditUsersBean</value>
+        </property>
+         <property name="tableName">
+            <value>audit_users</value>
+        </property>
+        <property name="identity">
+            <value>audit_id</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>audit_users_seq</value>
+        </property>
+        <property name="constraints">
+            <map>
+            	<entry key="byId">
+                    <value>audit_id = $int</value>
+                </entry>
+                <entry key="byUserId">
+                    <value>user_id = $int</value>
+                </entry>
+                <entry key="byUserName">
+                    <value>user_name = $str</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="AuditUserRolesProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="beanClassName">
+            <value>com.ali.commons.security.AuditUserRolesBean</value>
+        </property>
+         <property name="tableName">
+            <value>audit_user_roles</value>
+        </property>
+        <property name="identity">
+            <value>audit_id</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>audit_user_roles_seq</value>
+        </property>
+        <property name="constraints">
+            <map>
+            	<entry key="byId">
+                    <value>audit_id = $int</value>
+                </entry>
+                <entry key="byUserId">
+                    <value>user_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="AuditSystemProperty" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="beanClassName">
+            <value>com.ali.commons.security.AuditSystemProperty</value>
+        </property>
+        <property name="tableName">
+            <value>audit_system_property</value>
+        </property>
+        <property name="identity">
+            <value>audit_id</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>audit_sys_prop_seq</value>
+        </property>
+        <property name="constraints">
+            <map>
+            	<entry key="byId">
+                    <value>audit_id = $int</value>
+                </entry>
+                <entry key="byName">
+                    <value>property_name = $str and tenant_id = $int</value>
+                </entry>
+				<entry key="byTenant">
+                    <value>tenant_id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="TrackUserLoginsProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>track_user_logins</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.TrackUserLoginBean</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>user_id = $int</value>
+                </entry>
+                <entry key="byClient">
+                    <value>user_id = $int  and  client = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="NobleLProps" class="com.ali.commons.sqlmapper.TableProperties">
+        <property name="tableName">
+            <value>noble_l</value>
+        </property>
+        <property name="beanClassName">
+            <value>com.ali.commons.security.NobleLDBBean</value>
+        </property>
+        <property name="identity">
+            <value>id</value>
+        </property>
+        <property name="sequenceTableName">
+            <value>noble_l_seq</value>
+        </property>
+        <property name="constraints">
+            <map>
+                <entry key="byId">
+                    <value>id = $int</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+</beans>

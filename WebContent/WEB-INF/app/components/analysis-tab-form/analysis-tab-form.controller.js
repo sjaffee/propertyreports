@@ -30,6 +30,9 @@ REIApp.controller('AnalysisTabFormController', ['$scope', '$anchorScroll', '$loc
 		}
     	action.$promise.then(
     		function (result) {
+    			if(self.property.id==null){
+    				self.property.id = result.id;
+    			}
     			self.parentCtrl.fetchAllPropertyReports();
     		},
     		function (error){

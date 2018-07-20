@@ -12,12 +12,20 @@ REIApp.service('PropertyHelper', [ 'CommonService', function (CommonService) {
 		property.purchasePrice = null;
 		property.afterRepairValue = null;
 		property.marketValue = null;
-		property.closingCosts = null;
-		property.estimatedRepairValue = null;
+		property.closingCosts = 3000;
+		property.estimatedRepairValue = 2500;
 		property.isCashPurchase = false;
 		property.loanInfo = {};
+		property.loanInfo.downpaymentPercentage = 20;
+		property.loanInfo.interestRate = 4.875;
+		property.loanInfo.loanYears = 30;
 		property.income = {};
 		property.expenses = {};
+		property.expenses.monthlyInsurance = 157;
+		property.expenses.vacancyPercentage = 5;
+		property.expenses.repairsPercentage = 5;
+		property.expenses.capExPercentage = 7;
+		property.expenses.propertyManagementPercentage = 11;
 		property.futureEstimates = {};
 		property.results = {};
 		property.selectedReportDisplay = 'expenses';
@@ -25,6 +33,7 @@ REIApp.service('PropertyHelper', [ 'CommonService', function (CommonService) {
 		property.expensePieLabels = [];
 		property.incomePieData = [];
 		property.incomePieLabels = [];
+		
 
 		return property;
 	}

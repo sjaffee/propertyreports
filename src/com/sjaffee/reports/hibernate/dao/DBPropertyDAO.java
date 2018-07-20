@@ -17,17 +17,18 @@ public class DBPropertyDAO implements PropertyDAO{
 	
 	Session session;
 
-	public void saveProperty(PropertyReport pr) {
+	public Integer saveProperty(PropertyReport pr) {
 		
 		session = HibernateUtil.createSession();
 
+		Integer generatedId = null;
 		try{
 
 			session.beginTransaction();
 
 			//save the property report object
 			log.info("Saving the property report object...");
-			session.save(pr);
+			generatedId = (Integer) session.save(pr);
 
 			session.getTransaction().commit();
 
@@ -36,6 +37,8 @@ public class DBPropertyDAO implements PropertyDAO{
 		catch(Exception e){
 			log.error("Exception occured while saving property: " + e.getMessage());
 		}
+		
+		return generatedId;
 
 	}
 

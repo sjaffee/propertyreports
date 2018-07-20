@@ -65,20 +65,23 @@ public class PropertyReportController {
 	    //---------------------Create a new Property Report--------------------------------------------------------
 	    
 	    @RequestMapping(value = "/analysis", method = RequestMethod.POST)
-	    public ResponseEntity<Object> createPropertyReport(@RequestBody PropertyReport property, UriComponentsBuilder ucBuilder, HttpServletRequest request) {
+	    public ResponseEntity<PropertyReport> createPropertyReport(@RequestBody PropertyReport property, UriComponentsBuilder ucBuilder, HttpServletRequest request) {
 	        log.info("Creating property report: ");
 	 
+	        Integer generatedId = null;
+	        
 	        try {
 	        	DBPropertyDAO dao = new DBPropertyDAO();
-	        	dao.saveProperty(property);
+	        	generatedId = dao.saveProperty(property);
+	        	property.setId(generatedId);
 			} catch (Exception e) {
 				log.error("Property report creation failed with exception :", e);
-				return new ResponseEntity<Object>(HttpStatus.CONFLICT);
+				return new ResponseEntity<PropertyReport>(HttpStatus.CONFLICT);
 			}
 	        
-	        HttpHeaders headers = new HttpHeaders();
+	        //HttpHeaders headers = new HttpHeaders();
 	        //headers.setLocation(ucBuilder.path("/analysis/{id}").buildAndExpand(property.getAnnualPropertyTaxes()).toUri());
-	        return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<PropertyReport>(property, HttpStatus.CREATED);
 	    }
 		
 	    

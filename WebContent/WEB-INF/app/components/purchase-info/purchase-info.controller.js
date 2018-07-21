@@ -29,6 +29,7 @@ REIApp.controller('PurchaseInfoController', ['$scope','CommonService', function 
 			self.property.loanInfo.interestRate = null;
 			self.property.loanInfo.otherCharges = null;
 			self.property.loanInfo.loanYears = null;
+			self.property.expenses.pmi = 0;
 		}
 	}
 

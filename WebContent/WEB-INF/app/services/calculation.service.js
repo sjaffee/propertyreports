@@ -40,7 +40,14 @@ REIApp.service('CalculationService', ['CommonService', 'ChartService', 'Property
     }
 
     this.calculateTotalCashNeeded = function (property) {
-        var input = [property.closingCosts, property.estimatedRepairValue, property.results.downPayment];
+    	input = [property.closingCosts, property.estimatedRepairValue, property.results.downPayment];
+    	var input = [];
+    	if(property.isCashPurchase){
+    		input = [property.purchasePrice, property.closingCosts, property.estimatedRepairValue, property.results.downPayment, property.loanInfo.otherCharges];
+    	}
+    	else{
+    		input = [property.closingCosts, property.estimatedRepairValue, property.results.downPayment, property.loanInfo.otherCharges];
+    	}
         return CommonService.sumArray(input);
     }
 
@@ -64,6 +71,10 @@ REIApp.service('CalculationService', ['CommonService', 'ChartService', 'Property
 
     this.calculatePrincipleAndInterest = function (property, interestRate) {
 
+    	if(property.isCashPurchase){
+            return 0;
+        }
+    	
         var monthlyInterestRate = CommonService.convertToMonthlyInterestRate(interestRate);
         var loanAmount = property.results.loanAmount;
         var numberOfPayments = CommonService.multiply(property.loanInfo.loanYears, 12);

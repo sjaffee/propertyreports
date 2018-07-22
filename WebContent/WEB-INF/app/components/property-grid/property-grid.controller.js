@@ -25,8 +25,13 @@ REIApp.controller("propertyGridController", ['$scope','GridService', 'AnalysisHT
 				self.propertyGridOptions.dataSource.data = self.properties;
 			},
 			function (error) {
-                console.log("Unable to retrieve records: " + error);
-                openErrorModal();
+				if(error.status != 404){
+					console.log("Unable to retrieve records: " + error);
+	                openErrorModal();
+				}
+				else{
+					self.propertyGridOptions.dataSource.data = self.properties;
+				}
 			}
 		);
 	};
